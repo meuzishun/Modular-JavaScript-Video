@@ -38,7 +38,8 @@ var people = (function() {
     }
 
     function addPerson(value) {
-        people.push(value || input.value);
+        var name = (typeof value === 'string') ? value : input.value;
+        people.push(name);
         render();
         input.value = '';
     }
@@ -57,5 +58,5 @@ var people = (function() {
         addPerson: addPerson,
         deletePerson: deletePerson
     };
-    
+
 })();
