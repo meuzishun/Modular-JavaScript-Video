@@ -1,6 +1,7 @@
-var people = {
-    people: ['Will', 'Steve'],
-    createHTML: function(text) {
+var people = (function() {
+    var people = ['Will', 'Steve'];
+
+    function createHTML(text) {
         var item = document.createElement('li');
 
         var name = document.createElement('span');
@@ -14,45 +15,47 @@ var people = {
         item.appendChild(delBtn);
 
         return item;
-    },
-    init: function() {
-        this.cacheDom();
-        this.bindEvents();
-        this.render();
-    },
-    cacheDom: function() {
-        this.el = document.querySelector('#peopleModule');
-        this.button = this.el.querySelector('button');
-        this.input = this.el.querySelector('input');
-        this.ul = this.el.querySelector('ul');
-    },
-    bindEvents: function() {
-        this.button.addEventListener('click', this.addPerson.bind(this));
-        this.ul.addEventListener('click', this.deletePerson.bind(this));
-    },
-    render: function() {
-       this.ul.textContent = '';
-       this.people.forEach(person => {
-           var entry = this.createHTML(person);
-           this.ul.appendChild(entry);
-       });
-    },
-    addPerson: function(value) {
-        console.dir(value);
-        this.people.push(value || this.input.value);
-        this.render();
-        this.input.value = '';
-    },
-    deletePerson: function(event) {
+    }
+
+    //cache DOM
+    var el = document.querySelector('#peopleModule');
+    var button = el.querySelector('button');
+    var input = el.querySelector('input');
+    var ul = el.querySelector('ul');
+
+    //bind events
+    button.addEventListener('click', addPerson);
+    ul.addEventListener('click', deletePerson);
+
+    render();
+
+    function render() {
+        ul.textContent = '';
+        people.forEach(person => {
+            var entry = createHTML(person);
+            ul.appendChild(entry);
+        });
+    }
+
+    function addPerson(value) {
+        people.push(value || input.value);
+        render();
+        input.value = '';
+    }
+
+    function deletePerson(event) {
         if (event.target.tagName === 'I') {
             var text = event.target.parentElement.firstChild.textContent;
-            var index = this.people.indexOf(text);
+            var index = people.indexOf(text);
 
-            this.people.splice(index, 1);
-            this.render();
+            people.splice(index, 1);
+            render();
         }
     }
 
-};
-
-people.init();
+    return {
+        addPerson: addPerson,
+        deletePerson: deletePerson
+    };
+    
+})();
