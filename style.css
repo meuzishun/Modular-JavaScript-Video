@@ -57,7 +57,7 @@ button.active {
     background: #98ec9b;
     border-radius: 5px;
     padding: 3px 8px;
-    margin: 5px 0;
+    margin: 5px 4px;
     width: 200px;
     opacity: 0.8;
     transition: opacity 0.3s;
