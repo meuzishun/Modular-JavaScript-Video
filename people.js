@@ -27,9 +27,9 @@ var people = (function() {
     button.addEventListener('click', addPerson);
     ul.addEventListener('click', deletePerson);
 
-    render();
+    _render();
 
-    function render() {
+    function _render() {
         ul.textContent = '';
         people.forEach(person => {
             var entry = createHTML(person);
@@ -40,18 +40,21 @@ var people = (function() {
     function addPerson(value) {
         var name = (typeof value === 'string') ? value : input.value;
         people.push(name);
-        render();
+        _render();
         input.value = '';
     }
 
     function deletePerson(event) {
-        if (event.target.tagName === 'I') {
+        var index;
+        if (typeof event === 'number') {
+            index = event;
+        } else if (event.target.tagName === 'I') {
             var text = event.target.parentElement.firstChild.textContent;
-            var index = people.indexOf(text);
-
-            people.splice(index, 1);
-            render();
+            index = people.indexOf(text);
         }
+    
+        people.splice(index, 1);
+        _render();
     }
 
     return {
