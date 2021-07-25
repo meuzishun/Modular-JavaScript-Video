@@ -35,6 +35,7 @@ var people = (function() {
             var entry = createHTML(person);
             ul.appendChild(entry);
         });
+        events.emit('peopleChanged', people.length);
     }
 
     function addPerson(value) {
